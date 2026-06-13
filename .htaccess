@@ -1,0 +1,26 @@
+RewriteEngine On
+RewriteBase /
+
+# Hirdetés részletek: /hirdetes/123-elado-hasznalt-mosogep
+RewriteRule ^hirdetes/([0-9]+)-.*$ hirdetes_reszletek.php?id=$1 [L,QSA]
+
+# Kategória: /kategoria/allas
+RewriteRule ^kategoria/([a-zA-Z0-9_-]+)$ kategoria.php?fokategoria=$1 [L,QSA]
+
+# Keresés: /kereses?q=...
+RewriteRule ^kereses$ kereses.php [L,QSA]
+
+# Statikus oldalak
+RewriteRule ^bejelentkezes$ belepes.php [L]
+RewriteRule ^belepes$ belepes.php [L]
+RewriteRule ^regisztracio$ regisztracio.php [L]
+RewriteRule ^fiokom$ fiokom.php [L]
+RewriteRule ^hirdetes-feladas$ hirdetes_feladas.php [L]
+RewriteRule ^hirdetesek$ hirdetesek.php [L]
+RewriteRule ^aszf$ aszf.php [L]
+RewriteRule ^adatvedelem$ adatvedelem.php [L]
+RewriteRule ^gyik$ gyik.php [L]
+RewriteRule ^kapcsolat$ kapcsolat.php [L]
+RewriteRule ^email-megerosites$ email_megerosites.php [L]
+RewriteRule ^admin$ admin/index.php [L]
+RewriteRule ^admin/login$ admin/login.php [L]
