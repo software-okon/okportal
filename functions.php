@@ -46,3 +46,73 @@ function logMegtekintes(int $hirdetesId): void {
     $stmt->execute([':hid' => $hirdetesId, ':sid' => $sid]);
     if ($stmt->fetchColumn() == 0) { $pdo->prepare("INSERT INTO megtekintes_naplo (hirdetes_id, ip_cim, session_id) VALUES (:hid, :ip, :sid)")->execute([':hid' => $hirdetesId, ':ip' => $ip, ':sid' => $sid]); $pdo->prepare("UPDATE hirdetesek SET megtekintesek = megtekintesek + 1 WHERE id = :hid")->execute([':hid' => $hirdetesId]); }
 }
+
+function registerUser(string $email, string $password, string $nev, ?string $telefon): array {
+    $pdo = getDB();
+    $stmt = $pdo->prepare("SELECT id FROM felhasznalok WHERE email = :email");
+    $stmt->execute([':email' => $email]);
+    if ($stmt->fetch()) {
+        return ['success' => false, 'message' => 'Ez az e-mail cím már regisztrálva van!'];
+    }
+    $hashed = password_hash($password, PASSWORD_ALGO, ['cost' => PASSWORD_COST]);
+    $token = bin2hex(random_bytes(32));
+    $stmt = $pdo->prepare("
+        INSERT INTO felhasznalok (email, jelszo, nev, telefon, email_token, aktiv, email_ellenorizve)
+        VALUES (:email, :jelszo, :nev, :telefon, :token, 1, 0)
+    ");
+    try {
+        $stmt->execute([
+            ':email' => $email,
+            ':jelszo' => $hashed,
+            ':nev' => $nev,
+            ':telefon' => $telefon,
+            ':token' => $token
+        ]);
+        return ['success' => true, 'user_id' => (int)$pdo->lastInsertId(), 'email_token' => $token];
+    } catch (PDOException $e) {
+        error_log("Regisztrációs hiba: " . $e->getMessage());
+        return ['success' => false, 'message' => 'Hiba történt a mentés során.'];
+    }
+}
+
+function loginUser(string $email, string $password): array {
+    $pdo = getDB();
+    $stmt = $pdo->prepare("SELECT * FROM felhasznalok WHERE email = :email");
+    $stmt->execute([':email' => $email]);
+    $user = $stmt->fetch();
+    if (!$user) {
+        return ['success' => false, 'message' => 'Hibás e-mail cím vagy jelszó!'];
+    }
+    if (!$user['aktiv']) {
+        return ['success' => false, 'message' => 'Ez a felhasználói fiók fel van függesztve!'];
+    }
+    if (!password_verify($password, $user['jelszo'])) {
+        return ['success' => false, 'message' => 'Hibás e-mail cím vagy jelszó!'];
+    }
+    $pdo->prepare("UPDATE felhasznalok SET utolso_belepes = NOW() WHERE id = :id")->execute([':id' => $user['id']]);
+    $_SESSION['user_id'] = (int)$user['id'];
+    $_SESSION['user_email'] = $user['email'];
+    $_SESSION['user_nev'] = $user['nev'];
+    return ['success' => true, 'user' => $user];
+}
+
+function validatePhone(string $telefon): ?string {
+    if (empty($telefon)) {
+        return 'A telefonszám megadása kötelező!';
+    }
+    $cleaned = preg_replace('/[\s\-\(\)]/', '', $telefon);
+    if (!preg_match('/^(\+36|06)\d{8,9}$/', $cleaned)) {
+        return 'Érvénytelen telefonszám formátum! (Használd a +36... vagy 06... formátumot)';
+    }
+    return null;
+}
+
+function validateEmail(string $email): ?string {
+    if (empty($email)) {
+        return 'Az e-mail cím megadása kötelező!';
+    }
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        return 'Érvénytelen e-mail cím formátum!';
+    }
+    return null;
+}

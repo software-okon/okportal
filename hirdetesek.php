@@ -16,12 +16,19 @@ include __DIR__ . '/includes/header.php';
 ?>
 
 <div class="container">
-    <h1 style="margin-bottom:20px;">Összes hirdetés <span style="font-size:0.9rem;color:var(--text-light);">(<?= $total ?> hirdetés)</span></h1>
+    <h1 style="margin-bottom:20px; font-family:'Outfit',sans-serif; color:var(--primary);">Összes hirdetés <span style="font-size:0.9rem;color:var(--text-light);font-weight:500;">(<?= $total ?> hirdetés)</span></h1>
     <div class="grid grid-4">
         <?php foreach ($results as $h): ?>
-        <a href="/hirdetes/<?= $h['id'] ?>-<?= generateSlug($h['cim']) ?>" class="listing-card">
-            <div class="image" style="background-image:url('<?= $h['elso_kep'] ? UPLOAD_URL . $h['elso_kep'] : '/images/placeholder.jpg' ?>');"></div>
-            <div class="info"><div class="title"><?= htmlspecialchars($h['cim']) ?></div><div class="price"><?= arFormatum($h) ?></div><div class="meta"><span><?= htmlspecialchars($h['varos']) ?></span><span><?= date('m.d.', strtotime($h['letrehozva'])) ?></span></div></div>
+        <a href="<?= BASE_URL ?>/hirdetes/<?= $h['id'] ?>-<?= generateSlug($h['cim']) ?>" class="listing-card">
+            <div class="image" style="background-image:url('<?= $h['elso_kep'] ? UPLOAD_URL . $h['elso_kep'] : BASE_URL . '/images/placeholder.jpg' ?>');"></div>
+            <div class="info">
+                <div class="title"><?= htmlspecialchars($h['cim']) ?></div>
+                <div class="price"><?= arFormatum($h) ?></div>
+                <div class="meta">
+                    <span>📍 <?= htmlspecialchars($h['varos']) ?></span>
+                    <span>📅 <?= date('m.d.', strtotime($h['letrehozva'])) ?></span>
+                </div>
+            </div>
         </a>
         <?php endforeach; ?>
     </div>
