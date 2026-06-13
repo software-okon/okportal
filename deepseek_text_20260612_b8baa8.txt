@@ -1,0 +1,39 @@
+orszagkozepe/
+├── .htaccess                    ✅
+├── config.php                   ✅
+├── functions.php                ✅
+├── database.sql                 ✅
+├── index.php                    ✅ Főoldal
+├── hirdetes_reszletek.php       ✅ Hirdetés részletek
+├── hirdetesek.php               ✅ Összes hirdetés
+├── kereses.php                  ✅ Keresési találatok
+├── kereses_ajax.php             ✅ AJAX kereső
+├── kategoria.php                ✅ Kategória oldal
+├── hirdetes_feladas.php         ✅ Feladási űrlap
+├── submit_hirdetes.php          (korábban) Mentés
+├── regisztracio.php             ✅ Regisztráció
+├── belepes.php                  ✅ Bejelentkezés
+├── fiokom.php                   (korábban) Fiók
+├── kedvencek.php                (korábban) API
+├── uzenet_kuldes.php            (korábban) API
+├── aszf.php                     ✅ Statikus
+├── adatvedelem.php              ✅ Statikus
+├── gyik.php                     ✅ Statikus
+├── kapcsolat.php                ✅ Statikus
+├── auth/
+│   ├── register.php             (korábban)
+│   ├── login.php                (korábban)
+│   ├── logout.php               (korábban)
+│   ├── profil.php               (korábban)
+│   └── jelszo_visszaallitas.php (korábban)
+├── admin/
+│   ├── index.php                (korábban)
+│   ├── login.php                (korábban)
+│   └── statisztikak_frissitese.php (korábban)
+├── includes/
+│   ├── header.php               ✅
+│   ├── footer.php               ✅
+│   └── email.php                (korábban)
+├── css/style.css                ✅
+├── js/main.js                   ✅
+└── images/placeholder.jpg       (szükséges)
