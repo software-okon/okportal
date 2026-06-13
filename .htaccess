@@ -1,14 +1,38 @@
+# Kapcsold be az átíró motort
 RewriteEngine On
-RewriteBase /
 
-# Hirdetés részletek: /hirdetes/123-elado-hasznalt-mosogep
+# Ha a kérés létező fájlra vagy mappára mutat, ne írd át
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# Hirdetés részletek: /orszagkozepe/hirdetes/123-elado-hasznalt-mosogep
 RewriteRule ^hirdetes/([0-9]+)-.*$ hirdetes_reszletek.php?id=$1 [L,QSA]
 
-# Kategória: /kategoria/allas
+# Kategória: /orszagkozepe/kategoria/allas
 RewriteRule ^kategoria/([a-zA-Z0-9_-]+)$ kategoria.php?fokategoria=$1 [L,QSA]
 
-# Keresés: /kereses?q=...
+# Keresés
 RewriteRule ^kereses$ kereses.php [L,QSA]
+
+# Keresés AJAX
+RewriteRule ^kereses_ajax\.php$ kereses_ajax.php [L,QSA]
+# API végpontok
+RewriteRule ^kedvencek\.php$ kedvencek.php [L,QSA]
+RewriteRule ^uzenet_kuldes\.php$ uzenet_kuldes.php [L,QSA]
+RewriteRule ^submit_hirdetes\.php$ submit_hirdetes.php [L,QSA]
+
+# Auth
+RewriteRule ^auth/register\.php$ auth/register.php [L,QSA]
+RewriteRule ^auth/login\.php$ auth/login.php [L,QSA]
+RewriteRule ^auth/logout\.php$ auth/logout.php [L,QSA]
+RewriteRule ^auth/profil\.php$ auth/profil.php [L,QSA]
+RewriteRule ^auth/jelszo_visszaallitas\.php$ auth/jelszo_visszaallitas.php [L,QSA]
+
+# Admin
+RewriteRule ^admin$ admin/index.php [L]
+RewriteRule ^admin/$ admin/index.php [L]
+RewriteRule ^admin/login$ admin/login.php [L]
 
 # Statikus oldalak
 RewriteRule ^bejelentkezes$ belepes.php [L]
@@ -22,5 +46,6 @@ RewriteRule ^adatvedelem$ adatvedelem.php [L]
 RewriteRule ^gyik$ gyik.php [L]
 RewriteRule ^kapcsolat$ kapcsolat.php [L]
 RewriteRule ^email-megerosites$ email_megerosites.php [L]
-RewriteRule ^admin$ admin/index.php [L]
-RewriteRule ^admin/login$ admin/login.php [L]
+
+# Alapértelmezett: index.php
+RewriteRule ^$ index.php [L]

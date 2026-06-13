@@ -1,0 +1,17 @@
+# Temporary and system files
+.idea/
+.vscode/
+.gemini/
+
+# Project uploads and logs
+uploads/*
+!uploads/.gitkeep
+logs/*
+!logs/.gitkeep
+
+# Sync and debug utilities
+sync.php
+exec_debug.php
+index_minimal.php
+db_setup.php
+db_debug.php
