@@ -41,19 +41,26 @@ include __DIR__ . '/includes/header.php';
 ?>
 
 <div class="container">
-    <h1 style="margin-bottom:20px;"><?= htmlspecialchars($pageTitle) ?> <span style="font-size:0.9rem;color:var(--text-light);">(<?= $total ?> találat)</span></h1>
+    <h1 style="margin-bottom:20px; font-family:'Outfit',sans-serif; color:var(--primary);"><?= htmlspecialchars($pageTitle) ?> <span style="font-size:0.9rem;color:var(--text-light);font-weight:500;">(<?= $total ?> találat)</span></h1>
     
     <?php if (empty($results)): ?>
-        <div class="card" style="text-align:center;padding:40px;">
-            <p style="font-size:1.2rem;color:var(--text-light);">Nincs találat.</p>
-            <a href="/" class="btn btn-primary" style="margin-top:16px;">Vissza a főoldalra</a>
+        <div class="card" style="text-align:center;padding:60px 20px;">
+            <p style="font-size:1.2rem;color:var(--text-light);font-weight:600;margin-bottom:16px;">Nincs találat a megadott keresési feltételekre.</p>
+            <a href="<?= BASE_URL ?>/" class="btn btn-primary">Vissza a főoldalra</a>
         </div>
     <?php else: ?>
         <div class="grid grid-4">
             <?php foreach ($results as $h): ?>
-            <a href="/hirdetes/<?= $h['id'] ?>-<?= generateSlug($h['cim']) ?>" class="listing-card">
-                <div class="image" style="background-image:url('<?= $h['elso_kep'] ? UPLOAD_URL . $h['elso_kep'] : '/images/placeholder.jpg' ?>');"><?php if ($h['kiemeles'] !== 'alap'): ?><span class="badge">Kiemelt</span><?php endif; ?></div>
-                <div class="info"><div class="title"><?= htmlspecialchars($h['cim']) ?></div><div class="price"><?= arFormatum($h) ?></div><div class="meta"><span><?= htmlspecialchars($h['varos']) ?></span><span><?= date('m.d.', strtotime($h['letrehozva'])) ?></span></div></div>
+            <a href="<?= BASE_URL ?>/hirdetes/<?= $h['id'] ?>-<?= generateSlug($h['cim']) ?>" class="listing-card">
+                <div class="image" style="background-image:url('<?= $h['elso_kep'] ? UPLOAD_URL . $h['elso_kep'] : BASE_URL . '/images/placeholder.jpg' ?>');"><?php if ($h['kiemeles'] !== 'alap'): ?><span class="badge">Kiemelt</span><?php endif; ?></div>
+                <div class="info">
+                    <div class="title"><?= htmlspecialchars($h['cim']) ?></div>
+                    <div class="price"><?= arFormatum($h) ?></div>
+                    <div class="meta">
+                        <span>📍 <?= htmlspecialchars($h['varos']) ?></span>
+                        <span>📅 <?= date('m.d.', strtotime($h['letrehozva'])) ?></span>
+                    </div>
+                </div>
             </a>
             <?php endforeach; ?>
         </div>

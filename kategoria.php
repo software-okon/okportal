@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . '/functions.php';
 $fok = cleanInput($_GET['fokategoria'] ?? '');
-if (!isValidFokategoria($fok)) redirect('/');
+if (!isValidFokategoria($fok)) redirect(BASE_URL . '/');
 $pageTitle = getKategoriaNev($fok) . ' hirdetések - Ország Közepe';
 $page = max(1, (int)($_GET['oldal'] ?? 1));
 $perPage = PER_PAGE;
@@ -19,16 +19,23 @@ include __DIR__ . '/includes/header.php';
 ?>
 
 <div class="container">
-    <h1 style="margin-bottom:20px;"><?= getKategoriaIcon($fok) ?> <?= getKategoriaNev($fok) ?> <span style="font-size:0.9rem;color:var(--text-light);">(<?= $total ?> hirdetés)</span></h1>
+    <h1 style="margin-bottom:20px; font-family:'Outfit',sans-serif; color:var(--primary);"><?= getKategoriaIcon($fok) ?> <?= getKategoriaNev($fok) ?> <span style="font-size:0.9rem;color:var(--text-light);font-weight:500;">(<?= $total ?> hirdetés)</span></h1>
     
     <?php if (empty($results)): ?>
-        <div class="card" style="text-align:center;padding:40px;"><p style="font-size:1.2rem;color:var(--text-light);">Jelenleg nincs hirdetés ebben a kategóriában.</p></div>
+        <div class="card" style="text-align:center;padding:60px 20px;"><p style="font-size:1.2rem;color:var(--text-light);font-weight:600;">Jelenleg nincs hirdetés ebben a kategóriában.</p></div>
     <?php else: ?>
         <div class="grid grid-4">
             <?php foreach ($results as $h): ?>
-            <a href="/hirdetes/<?= $h['id'] ?>-<?= generateSlug($h['cim']) ?>" class="listing-card">
-                <div class="image" style="background-image:url('<?= $h['elso_kep'] ? UPLOAD_URL . $h['elso_kep'] : '/images/placeholder.jpg' ?>');"></div>
-                <div class="info"><div class="title"><?= htmlspecialchars($h['cim']) ?></div><div class="price"><?= arFormatum($h) ?></div><div class="meta"><span><?= htmlspecialchars($h['varos']) ?></span><span><?= date('m.d.', strtotime($h['letrehozva'])) ?></span></div></div>
+            <a href="<?= BASE_URL ?>/hirdetes/<?= $h['id'] ?>-<?= generateSlug($h['cim']) ?>" class="listing-card">
+                <div class="image" style="background-image:url('<?= $h['elso_kep'] ? UPLOAD_URL . $h['elso_kep'] : BASE_URL . '/images/placeholder.jpg' ?>');"></div>
+                <div class="info">
+                    <div class="title"><?= htmlspecialchars($h['cim']) ?></div>
+                    <div class="price"><?= arFormatum($h) ?></div>
+                    <div class="meta">
+                        <span>📍 <?= htmlspecialchars($h['varos']) ?></span>
+                        <span>📅 <?= date('m.d.', strtotime($h['letrehozva'])) ?></span>
+                    </div>
+                </div>
             </a>
             <?php endforeach; ?>
         </div>
