@@ -12,11 +12,11 @@ document.addEventListener('DOMContentLoaded', function() {
             if (q.length < 2) { suggestionsDiv.style.display = 'none'; return; }
             searchTimeout = setTimeout(async () => {
                 try {
-                    const res = await fetch('/kereses_ajax.php?type=suggest&q=' + encodeURIComponent(q));
+                    const res = await fetch(BASE_URL + '/kereses_ajax.php?type=suggest&q=' + encodeURIComponent(q));
                     const data = await res.json();
                     if (data.success && data.data.suggestions.length > 0) {
                         suggestionsDiv.innerHTML = data.data.suggestions.map(s =>
-                            `<div style="background:white;padding:10px 16px;border-bottom:1px solid #eee;cursor:pointer;border-radius:4px;margin-bottom:2px;" onclick="window.location.href='${s.url}'">${s.cim} <span style="color:#999;font-size:0.8rem;">(${s.fokategoria})</span></div>`
+                            `<div style="background:white;padding:10px 16px;border-bottom:1px solid #eee;cursor:pointer;border-radius:4px;margin-bottom:2px;color:var(--text);font-weight:500;" onclick="window.location.href='${s.url}'">${s.cim} <span style="color:var(--text-light);font-size:0.8rem;">(${s.fokategoria})</span></div>`
                         ).join('');
                         suggestionsDiv.style.display = 'block';
                     } else { suggestionsDiv.style.display = 'none'; }
@@ -37,9 +37,9 @@ document.addEventListener('DOMContentLoaded', function() {
         formData.append('hirdetes_id', hirdetesId);
         formData.append('action', isKedvenc ? 'remove' : 'add');
         try {
-            const res = await fetch('/kedvencek.php', { method: 'POST', body: formData });
+            const res = await fetch(BASE_URL + '/kedvencek.php', { method: 'POST', body: formData });
             const data = await res.json();
-            if (data.success) btn.textContent = isKedvenc ? '🤍 Kedvencekhez adás' : '❤️ Kedvencekben';
+            if (data.success) btn.textContent = isKedvenc ? '🤍 Hozzáadás a kedvencekhez' : '❤️ Eltávolítás a kedvencekből';
         } catch(e) { alert('Hiba történt!'); }
     };
 
@@ -55,15 +55,15 @@ document.addEventListener('DOMContentLoaded', function() {
             formData.append('kuldo_telefon', document.getElementById('msgTelefon')?.value || '');
             formData.append('targy', document.getElementById('msgTargy')?.value || '');
             formData.append('uzenet', document.getElementById('msgUzenet')?.value || '');
-            const res = await fetch('/uzenet_kuldes.php', { method: 'POST', body: formData });
+            const res = await fetch(BASE_URL + '/uzenet_kuldes.php', { method: 'POST', body: formData });
             const data = await res.json();
             if (data.success) {
-                status.textContent = '✅ Üzenet elküldve!'; status.style.color = '#27ae60';
+                status.textContent = '✅ Üzenet elküldve!'; status.style.color = 'var(--success)';
                 const form = document.getElementById('messageForm');
-                if (form) form.innerHTML = '<p style="color:#27ae60;text-align:center;padding:20px;">✅ Üzenet sikeresen elküldve!</p>';
+                if (form) form.innerHTML = '<p style="color:var(--success);text-align:center;padding:20px;font-weight:600;">✅ Üzenet sikeresen elküldve!</p>';
             } else {
-                status.textContent = '❌ ' + data.message; status.style.color = '#c0392b';
+                status.textContent = '❌ ' + data.message; status.style.color = 'var(--danger)';
             }
-        } catch(e) { status.textContent = '❌ Hálózati hiba!'; status.style.color = '#c0392b'; }
+        } catch(e) { status.textContent = '❌ Hálózati hiba!'; status.style.color = 'var(--danger)'; }
     };
 });
