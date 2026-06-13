@@ -1,0 +1,44 @@
+orszagkozepe/
+├── index.php                          # Főoldal
+├── config.php                         # Konfiguráció
+├── functions.php                      # Segédfüggvények
+├── .htaccess                          # URL átírás
+├── hirdetes_feladas.php               # Hirdetésfeladási űrlap
+├── submit_hirdetes.php                # Hirdetés mentése
+├── hirdetes_reszletek.php             # Hirdetés részletek oldal
+├── hirdetesek.php                     # Hirdetések listázása
+├── kereses.php                        # Keresési találatok oldal
+├── regisztracio.php                   # Regisztrációs oldal
+├── belepes.php                        # Bejelentkezési oldal
+├── fiokom.php                         # Felhasználói fiók
+├── kedvencek.php                      # Kedvencek API
+├── uzenet_kuldes.php                  # Üzenetküldés API
+├── kategoria.php                      # Kategória oldal
+├── email_megerosites.php              # Email megerősítés
+├── aszf.php                           # ÁSZF oldal
+├── adatvedelem.php                    # Adatvédelmi oldal
+├── gyik.php                           # GYIK oldal
+├── kapcsolat.php                      # Kapcsolat oldal
+├── auth/
+│   ├── register.php                   # Regisztráció feldolgozás
+│   ├── login.php                      # Bejelentkezés feldolgozás
+│   ├── logout.php                     # Kijelentkezés
+│   ├── profil.php                     # Profil módosítás
+│   └── jelszo_visszaallitas.php       # Jelszó visszaállítás
+├── admin/
+│   ├── index.php                      # Admin dashboard
+│   ├── login.php                      # Admin bejelentkezés
+│   ├── hirdetesek_kezelese.php        # Hirdetések kezelése
+│   └── statisztikak_frissitese.php    # Statisztikák frissítése
+├── includes/
+│   ├── header.php                     # Közös fejléc
+│   ├── footer.php                     # Közös lábléc
+│   └── email.php                      # Email küldés
+├── css/
+│   └── style.css                      # Központi stíluslap
+├── js/
+│   └── main.js                        # Központi JavaScript
+├── images/
+│   └── placeholder.jpg                # Helykitöltő kép
+├── uploads/                           # Feltöltött képek
+└── database.sql                       # Adatbázis séma

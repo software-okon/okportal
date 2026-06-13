@@ -126,19 +126,20 @@ try {
     $lejarat = calculateExpiryDate($ervenyesseg);
     
     $sql = "INSERT INTO hirdetesek (
-                fokategoria, alkategoria, cim, leiras, ar, ar_tipus,
+                felhasznalo_id, fokategoria, alkategoria, cim, leiras, ar, ar_tipus,
                 megye, varos, iranyitoszam, elado_nev, telefon, email,
                 ervenyesseg, kiemeles, cimkek, video_url, alku,
                 statusz, lejarat
             ) VALUES (
-                :fokategoria, :alkategoria, :cim, :leiras, :ar, :ar_tipus,
+                :felhasznalo_id, :fokategoria, :alkategoria, :cim, :leiras, :ar, :ar_tipus,
                 :megye, :varos, :iranyitoszam, :elado_nev, :telefon, :email,
                 :ervenyesseg, :kiemeles, :cimkek, :video_url, :alku,
-                'aktiv', :lejarat
+                'fuggoben', :lejarat
             )";
     
     $stmt = $pdo->prepare($sql);
     $stmt->execute([
+        ':felhasznalo_id'  => getCurrentUserId(),
         ':fokategoria'     => $fokategoria,
         ':alkategoria'     => $alkategoria,
         ':cim'             => $cim,
@@ -288,7 +289,7 @@ function saveAllasData(PDO $pdo, int $hirdetesId, array $post): void {
         ':fizetes_tipus'            => cleanInput($post['allas_fizetesTipus'] ?? ''),
         ':juttatasok'               => $juttatasok,
         ':vegzettseg'               => cleanInput($post['allas_vegzettseg'] ?? ''),
-        ':tapasboldsymbol'          => cleanInput($post['allas_tapasztalat'] ?? ''),
+        ':tapasztalat'              => cleanInput($post['allas_tapasztalat'] ?? ''),
         ':munkakor_leiras'          => trim($post['allas_feladatok'] ?? ''),
         ':ceg_info'                 => trim($post['allas_cegInfo'] ?? ''),
         ':jelentkezesi_hatarido'    => !empty($post['allas_jelentkezesiHatarido']) ? $post['allas_jelentkezesiHatarido'] : null,
@@ -322,7 +323,7 @@ function saveIngatlanData(PDO $pdo, int $hirdetesId, array $post): void {
     $stmt->execute([
         ':hirdetes_id'        => $hirdetesId,
         ':ingatlan_tipus'     => cleanInput($post['ingatlan_tipus'] ?? ''),
-        ':ingatlan_hirdetesTipus' => cleanInput($post['ingatlan_hirdetesTipus'] ?? ''),
+        ':hirdetes_tipus'     => cleanInput($post['ingatlan_hirdetesTipus'] ?? ''),
         ':meret'              => !empty($post['ingatlan_meret']) ? (int)$post['ingatlan_meret'] : null,
         ':telek_meret'        => !empty($post['ingatlan_telekMeret']) ? (int)$post['ingatlan_telekMeret'] : null,
         ':szobak_szama'       => !empty($post['ingatlan_szobak']) ? (int)$post['ingatlan_szobak'] : null,
