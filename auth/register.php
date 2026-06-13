@@ -52,7 +52,7 @@ if (empty($_POST['aszf'])) {
 }
 
 if (!empty($errors)) {
-    jsonResponse(false, 'Validációs hiba!', ['errors' => $errors], 422);
+    jsonResponse(false, implode('<br>', $errors), ['errors' => $errors], 422);
 }
 
 // Regisztráció végrehajtása
